@@ -3,13 +3,14 @@ package org.mahanth.springbootwebapplication.service;
 import org.mahanth.springbootwebapplication.model.Product;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Service // Which ic also a Component but more than that
 public class ProductService {
 
-    List<Product> productList = Arrays.asList(
+    List<Product> productList = new ArrayList<>(Arrays.asList(
             new Product(1, "iPhone 15", "799.99", "Electronics", "Latest Apple smartphone with A16 chip", 50),
             new Product(2, "Samsung Galaxy S23", "699.99", "Electronics", "Flagship Android smartphone", 40),
             new Product(3, "Nike Running Shoes", "120.00", "Footwear", "Lightweight running shoes for daily training", 100),
@@ -21,9 +22,42 @@ public class ProductService {
             new Product(9, "Notebook Pack", "12.99", "Stationery", "Set of 5 ruled notebooks", 200),
             new Product(10, "Gaming Mouse", "39.99", "Electronics", "Ergonomic mouse with RGB lighting", 80),
             new Product(11, "Smart Watch", "149.99", "Electronics", "Fitness tracking smartwatch with heart rate monitor", 35)
-    );
+    ));
 
-    public List<Product> getProductList(){
+    public List<Product> getProductList() {
+
         return productList;
     }
+
+    public Product getProductById(int id) {
+
+        /*
+        Using Stream API(Advanced)
+         */
+        return productList.stream()
+                .filter(product -> product.getProductId() == id)
+//                .findFirst().get();
+                .findFirst().orElse(null); // To handle the NoSuchElementException
+
+        /*
+        Using enhanced for each loop
+         */
+//        Product product = null;
+//        if(id > 0){
+//            for (Product p : productList) {
+//                if(p.getProductId()==id){
+//                    product =  p;
+//                    break;
+//                }
+//            }
+//        }
+//        return product;
+    }
+
+    public String addProduct(Product product) {
+
+        return productList.add(product)? "SUCCESS" : "FAILURE";
+    }
 }
+
+

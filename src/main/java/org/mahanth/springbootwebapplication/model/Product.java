@@ -2,14 +2,14 @@ package org.mahanth.springbootwebapplication.model;
 
 public class Product {
 
-    private int productId;
+    private Integer productId;
     private String productName;
     private String productPrice;
     private String productCategory;
     private String productDescription;
-    private int productStock;
+    private Integer productStock;
 
-    public Product(int productId, String productName, String productPrice, String productCategory, String productDescription, int productStock) {
+    public Product(Integer productId, String productName, String productPrice, String productCategory, String productDescription, Integer productStock) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -18,7 +18,7 @@ public class Product {
         this.productStock = productStock;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
     public void setProductName(String productName) {
@@ -33,7 +33,7 @@ public class Product {
     public void setProductCategory(String productCategory) {
         this.productCategory = productCategory;
     }
-    public void setProductStock(int productStock) {
+    public void setProductStock(Integer productStock) {
         this.productStock = productStock;
     }
 
