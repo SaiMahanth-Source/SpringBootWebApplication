@@ -58,6 +58,22 @@ public class ProductService {
 
         return productList.add(product)? "SUCCESS" : "FAILURE";
     }
+
+    public String modifyProduct(Product product) {
+
+        return productList.add(product)? "SUCCESSFULLY PRODUCT UPDATED" : "UNSUCCESSFULLY PRODUCT NOT UPDATED";
+    }
+
+    public String removeProduct(int id) {
+
+        Product product = null ;
+        for(Product p : productList){
+            if(p.getProductId() == id){
+                product = p ;
+            }
+        }
+        return (product != null)? "PRODUCT SUCCESSFULLY DELETED" : "PRODUCT UNSUCCESSFULLY DELETED";
+    }
 }
 
 

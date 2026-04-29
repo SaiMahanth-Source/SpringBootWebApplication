@@ -28,8 +28,20 @@ public class ProductController {
     }
 
     @PostMapping("/addProducts")
-    public String addProduct(@RequestBody Product product){
+    public String addProduct(@RequestBody Product product){// @RequestBody annotation is to accept the data from the client
 
         return productService.addProduct(product);
+    }
+
+    @PutMapping("/modifyProducts")
+    public String modifyProduct(@RequestBody Product product){
+
+        return productService.modifyProduct(product);
+    }
+
+    @DeleteMapping("/removeProduct/{id}")
+    public String removeProduct(@PathVariable int id){
+
+        return productService.removeProduct(id);
     }
 }
