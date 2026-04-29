@@ -1,13 +1,24 @@
 package org.mahanth.springbootwebapplication.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Products")
 public class Product {
 
+    @Id
     private Integer productId;
     private String productName;
     private String productPrice;
     private String productCategory;
     private String productDescription;
     private Integer productStock;
+
+    public Product(){
+
+    }
 
     public Product(Integer productId, String productName, String productPrice, String productCategory, String productDescription, Integer productStock) {
         this.productId = productId;
@@ -38,7 +49,7 @@ public class Product {
     }
 
     public int getProductId() {
-        return productId;
+        return productId == null ? 0 : productId;
     }
     public String getProductName() {
         return productName;
