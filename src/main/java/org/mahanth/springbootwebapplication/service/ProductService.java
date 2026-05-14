@@ -19,6 +19,17 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    public ProductService() {
+
+
+    }
+
+    public ProductService(ProductRepository productRepository) {
+
+        this.productRepository = productRepository;
+        System.out.println("ProductService Created");
+    }
+
     public List<Product> getProductList() {
 
         return productRepository.findAll();

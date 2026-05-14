@@ -3,6 +3,8 @@ package org.mahanth.springbootwebapplication.controllers;
 import org.mahanth.springbootwebapplication.model.Product;
 import org.mahanth.springbootwebapplication.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,16 +17,20 @@ public class ProductController {
 
 //    @RequestMapping("/getProducts")
     @GetMapping("/getProducts")
-    public List<Product> getProducts(){
+    public ResponseEntity<List<Product>> getProducts(){
 
-        return productService.getProductList();
+        return new ResponseEntity<>(productService.getProductList(), HttpStatus.OK);
     }
 
 //    @RequestMapping("/getProduct/{id}")
     @GetMapping("/getProduct/{id}")
-    public Product getProductById(@PathVariable int id){
+    public ResponseEntity<Product> getProductById(@PathVariable int id){
 
-        return productService.getProductById(id);
+        if(productService.getProductById(id) != null){
+            return new ResponseEntity(productService.getProductById(id), HttpStatus.FOUND);
+        }
+        return new ResponseEntity(productService.getProductById(id), HttpStatus.NOT_FOUND);
+
     }
 
     @PostMapping("/addProducts")
