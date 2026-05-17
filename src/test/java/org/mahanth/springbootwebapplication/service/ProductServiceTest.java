@@ -14,6 +14,9 @@ import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
@@ -25,16 +28,21 @@ public class ProductServiceTest {
     @InjectMocks
     ProductService productService;
 
+    private static Product product = null ;
+
     @BeforeAll
     public static void classLevelSetup(){
 
         System.out.println("This annotation executes only once & class level setup before the test like db connections etc");
+        product = new Product(1, "iPhone 15", "799.99", "Electronics", "Latest Apple smartphone with A16 chip", 50);
+
     }
 
     @BeforeEach
     public void setup(){
 
         System.out.println("This annotation is for the setup before each test to tweak the data objects if any");
+
     }
 
     @AfterEach
@@ -92,7 +100,7 @@ public class ProductServiceTest {
 
         Mockito.doNothing().when(productRepository).deleteById(1);
         productService.removeProduct(1);
-        Mockito.verify(productRepository, Mockito.times(1)).deleteById(1);
+        Mockito.verify(productRepository, times(1)).deleteById(1);
     }
 
     @Test
@@ -102,7 +110,6 @@ public class ProductServiceTest {
 
         validateProduct.setAccessible(true);
 
-        Product product = new Product(1, "iPhone 15", "799.99", "Electronics", "Latest Apple smartphone with A16 chip", 50);
 
         Boolean result = (Boolean) validateProduct.invoke(productService, product);
         assertTrue(result);
@@ -121,13 +128,17 @@ public class ProductServiceTest {
     }
 
     @Test
-    void addProductShouldThowExceptionForInvalidProduct() {
+    void addProductShouldThrowExceptionForInvalidProduct() {
 
 //        System.out.println("Adding Product");
         Product product = new Product(1, "", "799.99", "Electronics", "Latest Apple smartphone with A16 chip", 50);
 
-        assertThrows(RuntimeException.class, () -> { // Using lambda expression
+        RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> { // Using lambda expression
             productService.addProduct(product);
         });
+        assertEquals("Invalid Product", runtimeException.getMessage());
+        Mockito.verify(productRepository, times(0)).save(product);
+        Mockito.verify(productRepository, times(0)).save(any(Product.class));
+        Mockito.verify(productRepository, never()).save(any(Product.class));
     }
 }
