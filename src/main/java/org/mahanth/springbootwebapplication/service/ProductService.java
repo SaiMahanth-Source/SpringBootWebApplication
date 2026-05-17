@@ -20,14 +20,13 @@ public class ProductService {
     ProductRepository productRepository;
 
     public ProductService() {
-
-
+            
     }
 
     public ProductService(ProductRepository productRepository) {
 
         this.productRepository = productRepository;
-        System.out.println("ProductService Created");
+//        System.out.println("ProductService Created");
     }
 
     public List<Product> getProductList() {
@@ -42,20 +41,37 @@ public class ProductService {
 
     public String addProduct(Product product) {
 
-        productRepository.save(product);
-        return "SUCCESS" ;
+        if(validateProduct(product)){
+            productRepository.save(product);
+            return "SUCCESSFULLY PRODUCT UPDATED" ;
+        }
+        else {
+            throw new RuntimeException("Invalid Product") ;
+        }
     }
 
     public String modifyProduct(Product product) {
 
-        productRepository.save(product);
-        return "SUCCESSFULLY PRODUCT UPDATED" ;
+        if(validateProduct(product)){
+            productRepository.save(product);
+            return "SUCCESSFULLY PRODUCT UPDATED" ;
+        }
+        else {
+            return "PRODUCT DOES NOT EXIST";
+        }
     }
 
-    public String removeProduct(int id) {
+    public void removeProduct(int id) {
 
         productRepository.deleteById(id);
-        return "PRODUCT SUCCESSFULLY DELETED";
+//        return "PRODUCT SUCCESSFULLY DELETED";
+    }
+
+    private boolean validateProduct(Product product) {
+
+        return product != null
+                && product.getProductName() != null
+                && !product.getProductName().isEmpty();
     }
 
 //    List<Product> productList = new ArrayList<>(Arrays.asList(
@@ -123,5 +139,7 @@ public class ProductService {
 //        return (product != null)? "PRODUCT SUCCESSFULLY DELETED" : "PRODUCT UNSUCCESSFULLY DELETED";
 //    }
 }
+
+
 
 
